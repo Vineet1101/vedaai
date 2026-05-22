@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CreateAssignmentSchema } from "@vedaai/shared";
@@ -17,7 +16,6 @@ import { JobProgress } from "@/components/assignment/JobProgress";
 import { useAssignmentStore } from "@/store/assignmentStore";
 
 export default function CreatePage() {
-  const router = useRouter();
   const { createAssignment, currentJobId } = useAssignmentStore();
 
   const [questionTypes, setQuestionTypes] = useState<QuestionTypeConfig[]>([

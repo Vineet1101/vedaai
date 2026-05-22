@@ -8,7 +8,7 @@ import { logger } from "../lib/logger";
 import { validate } from "../middleware/validate";
 import { upload, extractFileContent } from "../middleware/upload";
 
-const router = Router();
+const router: ReturnType<typeof Router> = Router();
 
 // ──────────────────────────────────────────────
 // GET /api/assignments — List all assignments

@@ -4,7 +4,7 @@ import rateLimit from "express-rate-limit";
 import assignmentRoutes from "./routes/assignment.routes";
 import { errorHandler } from "./middleware/errorHandler";
 
-const app = express();
+const app: ReturnType<typeof express> = express();
 
 // ── Middleware ──────────────────────────────
 app.use(

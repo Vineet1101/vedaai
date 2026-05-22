@@ -15,7 +15,6 @@ const difficultyVariant = {
 
 export function SectionBlock({
   section,
-  sectionIndex,
   showAnswers,
 }: SectionBlockProps) {
   return (

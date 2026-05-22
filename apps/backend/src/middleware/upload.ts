@@ -1,6 +1,6 @@
 import multer from "multer";
 import pdfParse from "pdf-parse";
-import type { Request, Response, NextFunction } from "express";
+import type { Request, Response, NextFunction, RequestHandler } from "express";
 import { logger } from "../lib/logger";
 
 const storage = multer.memoryStorage();
@@ -18,7 +18,7 @@ const fileFilter = (
   }
 };
 
-export const upload = multer({
+export const upload: RequestHandler = multer({
   storage,
   fileFilter,
   limits: { fileSize: 5 * 1024 * 1024 }, // 5MB
