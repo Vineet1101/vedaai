@@ -1,4 +1,21 @@
-import "dotenv/config";
+import dotenv from "dotenv";
+import path from "path";
+import fs from "fs";
+
+// Load from current working directory
+dotenv.config();
+
+// Load from workspace root
+const rootEnvPath = path.resolve(process.cwd(), "../../.env");
+if (fs.existsSync(rootEnvPath)) {
+  dotenv.config({ path: rootEnvPath });
+} else {
+  const fallbackEnvPath = path.resolve(__dirname, "../../../.env");
+  if (fs.existsSync(fallbackEnvPath)) {
+    dotenv.config({ path: fallbackEnvPath });
+  }
+}
+
 import http from "http";
 import app from "./app";
 import { connectMongo } from "./lib/mongo";

@@ -1,4 +1,6 @@
 import Anthropic from "@anthropic-ai/sdk";
+import { GoogleGenAI } from "@google/genai";
+import { zodToJsonSchema } from "zod-to-json-schema";
 import { GeneratedPaperSchema } from "@vedaai/shared";
 import { logger } from "../lib/logger";
 import type { QuestionTypeConfig, DifficultyDistribution } from "@vedaai/shared";
@@ -6,6 +8,18 @@ import type { QuestionTypeConfig, DifficultyDistribution } from "@vedaai/shared"
 const anthropic = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY || "",
 });
+
+let ai: GoogleGenAI | null = null;
+function getGeminiClient(): GoogleGenAI {
+  if (!ai) {
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+      throw new Error("GEMINI_API_KEY is not defined in the environment variables.");
+    }
+    ai = new GoogleGenAI({ apiKey });
+  }
+  return ai;
+}
 
 interface PromptData {
   subject: string;
@@ -83,8 +97,34 @@ Rules:
 }
 
 export async function callLLM(prompt: string): Promise<string> {
+  const provider = process.env.LLM_PROVIDER || "anthropic";
+
+  if (provider === "gemini") {
+    logger.info("Calling Gemini API...");
+    const geminiSchema = zodToJsonSchema(GeneratedPaperSchema as any);
+    
+    const client = getGeminiClient();
+    const response = await client.models.generateContent({
+      model: "gemini-2.5-flash",
+      contents: prompt,
+      config: {
+        responseMimeType: "application/json",
+        responseSchema: geminiSchema as any,
+        temperature: 0.7,
+      },
+    });
+
+    if (!response.text) {
+      throw new Error("No text response from Gemini");
+    }
+
+    return response.text;
+  }
+
+  // Default fallback to Anthropic
+  logger.info("Calling Anthropic API...");
   const response = await anthropic.messages.create({
-    model: "claude-sonnet-4-20250514",
+    model: "claude-3-5-sonnet-latest",
     max_tokens: 4096,
     temperature: 0.7,
     messages: [{ role: "user", content: prompt }],

@@ -8,25 +8,27 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "@vedaai/shared": "workspace:*",
-    "express": "^4.21.0",
-    "mongoose": "^8.8.0",
-    "ioredis": "^5.4.0",
-    "bullmq": "^5.25.0",
-    "socket.io": "^4.8.0",
-    "multer": "^1.4.5-lts.1",
-    "pdf-parse": "^1.1.1",
-    "zod": "^3.23.0",
     "@anthropic-ai/sdk": "^0.32.0",
+    "@google/genai": "^2.6.0",
+    "@vedaai/shared": "workspace:*",
+    "bullmq": "^5.25.0",
     "cors": "^2.8.5",
     "dotenv": "^16.4.0",
+    "express": "^4.21.0",
+    "express-rate-limit": "^7.4.0",
+    "ioredis": "^5.4.0",
+    "mongoose": "^8.8.0",
+    "multer": "^1.4.5-lts.1",
+    "pdf-parse": "^1.1.1",
+    "socket.io": "^4.8.0",
     "winston": "^3.15.0",
-    "express-rate-limit": "^7.4.0"
+    "zod": "^3.23.0",
+    "zod-to-json-schema": "^3.25.2"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
     "@types/multer": "^1.4.12",
-    "@types/cors": "^2.8.17",
     "@types/pdf-parse": "^1.1.4",
     "tsx": "^4.19.0",
     "typescript": "^5.5.0"
